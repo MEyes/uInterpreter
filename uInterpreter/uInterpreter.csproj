@@ -44,9 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST\BinaryExpression.cs" />
+    <Compile Include="AST\CosExpression.cs" />
     <Compile Include="AST\Expression.cs" />
     <Compile Include="AST\NumericConstant.cs" />
     <Compile Include="AST\Operator.cs" />
+    <Compile Include="AST\SinExpression.cs" />
+    <Compile Include="AST\UnaryExpression.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
