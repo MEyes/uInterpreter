@@ -59,6 +59,18 @@ namespace uInterpreter.Parser
                     token = Token.CParen;
                     _index++;
                     break;
+                case '$':
+                    if (_expressionStr[_index+1]=='t')
+                    {
+                        _index += 2;
+                        token = Token.Param;
+                    }
+                    else
+                    {
+                        _index++;
+                        token=Token.Illegal;
+                    }
+                    break;
                 default:
                     if (char.IsDigit(_expressionStr[_index]))
                     {

@@ -68,6 +68,11 @@ namespace uInterpreter.Parser
                 expression=new NumericConstant(GetNumber());
                 _currentToken = GetToken();
             }
+            else if (_currentToken == Token.Param)
+            {
+                expression=new Var(null);
+                _currentToken = GetToken();
+            }
             else if(_currentToken==Token.Sin || _currentToken==Token.Cos)
             {
                 Token old = _currentToken;

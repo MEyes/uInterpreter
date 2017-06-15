@@ -44,12 +44,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AST\BinaryExpression.cs" />
+    <Compile Include="AST\Context.cs" />
     <Compile Include="AST\CosExpression.cs" />
     <Compile Include="AST\Expression.cs" />
     <Compile Include="AST\NumericConstant.cs" />
     <Compile Include="AST\Operator.cs" />
+    <Compile Include="AST\RandomExpression.cs" />
     <Compile Include="AST\SinExpression.cs" />
     <Compile Include="AST\UnaryExpression.cs" />
+    <Compile Include="AST\Var.cs" />
     <Compile Include="Builder\AbstractBuilder.cs" />
     <Compile Include="Builder\ExpressionBuilder.cs" />
     <Compile Include="NumericalUtility.cs" />
