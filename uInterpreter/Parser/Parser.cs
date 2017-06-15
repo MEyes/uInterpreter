@@ -53,6 +53,12 @@ namespace uInterpreter.Parser
             return expression;
         }
 
+        //Sin(Expr)
+        //Random(10,20)
+        //Avg([1,3,4])
+        //Sum([10,20,30,40,50])
+
+
         private Expression Factor()
         {
             Token token;

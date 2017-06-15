@@ -52,9 +52,11 @@
     <Compile Include="AST\UnaryExpression.cs" />
     <Compile Include="Builder\AbstractBuilder.cs" />
     <Compile Include="Builder\ExpressionBuilder.cs" />
+    <Compile Include="NumericalUtility.cs" />
     <Compile Include="Parser\Lexer.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Parser\Token.cs" />
+    <Compile Include="PreProgress.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
