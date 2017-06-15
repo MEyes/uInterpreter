@@ -19,8 +19,10 @@ namespace uInterpreter
         /// </summary>
         public void Run()
         {
+
+            var expressionStr = "";
             //保存原先字符索引，只有在状态转换时才记录
-            int oldCharIndex;
+            int oldCharIndex=0;
             //是否当前字符串索引代表字符串的最后一个字符
             bool isEndOfString=false;
             //设置有穷自动机的初态
@@ -91,6 +93,17 @@ namespace uInterpreter
             } while (currentState!=DFAState.qQ && !isEndOfString);
 
             //取出数字
+
+            if (_index==expressionStr.Length-1 && char.IsDigit(currentChar))
+            {
+                Result = expressionStr.Substring(oldCharIndex, _index - oldCharIndex + 1);
+            }
+            else
+            {
+                Result = expressionStr.Substring(oldCharIndex, _index - oldCharIndex);
+            }
+
+           
         }
     }
 
