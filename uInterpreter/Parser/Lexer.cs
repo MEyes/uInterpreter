@@ -76,8 +76,6 @@ namespace uInterpreter.Parser
             return token;
         }
 
-        public do
-
         private Token GrabDigitsFromStream()
         {
             string str = "";
