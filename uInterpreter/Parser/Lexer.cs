@@ -20,7 +20,7 @@ namespace uInterpreter.Parser
             _length = _expressionStr.Length;
         }
 
-        public Token GeToken()
+        public Token GetToken()
         {
             var token = Token.Illegal;
             //跳过空格
@@ -76,6 +76,8 @@ namespace uInterpreter.Parser
             return token;
         }
 
+        public do
+
         private Token GrabDigitsFromStream()
         {
             string str = "";
@@ -95,6 +97,11 @@ namespace uInterpreter.Parser
             }
             _number = Convert.ToDouble(str);
             return Token.Double;
+        }
+
+        public double GetNumber()
+        {
+            return _number;
         }
 
         private Token GetSineCosineFromStream()

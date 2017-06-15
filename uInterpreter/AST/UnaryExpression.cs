@@ -12,9 +12,10 @@ namespace uInterpreter.AST
         private Expression _expression;
         private Operator _operator;
 
-        public UnaryExpression(Expression expression)
+        public UnaryExpression(Expression expression,Operator op)
         {
             _expression = expression;
+            _operator = op;
         }
         public override double Evaluate()
         {
