@@ -8,17 +8,17 @@ namespace uInterpreter.Parser
 {
     public enum Token
     {
-        Illegal=-1,
-        Plus,
-        Sub,
-        Mul,
-        Div,
-        OParen,
-        CParen,
-        Double,
-        Param,
-        Sin,
-        Cos,
-        Null
+        Illegal=-1,   //非法
+        Add,          //加
+        Sub,          //减  
+        Mul,          //乘
+        Div,          //除
+        OParen,       //左括号 open parenthesis
+        CParen,       //右括号 closed parenthesis
+        Double,       //数字
+        Param,        //参数
+        Sin,          //Sine
+        Cos,          //Cos
+        Null          //结束
     }
 }

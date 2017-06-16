@@ -6,25 +6,39 @@ using System.Threading.Tasks;
 
 namespace uInterpreter.Parser
 {
-    public class Lexer
+    /// <summary>
+    /// 词法分析器
+    /// 可以处理由多个字符组成的构造，比如标识符。标识符由多个字符组成，但是在语法分析阶段被当作一个单元进行处理
+    /// 这样的单元称作词法单元(Token)
+    /// 例如表达式count+1中，标识符count被当作一个单元
+    /// </summary>
+    public class LexicalAnalyzer
     {
-        private string _expressionStr;
+        private readonly string _expressionStr;
         private int _index;
-        private int _length;
+        private readonly int _length;
         private double _number;
 
-        public Lexer(string expressionStr)
+        public LexicalAnalyzer(string expressionStr)
         {
             _expressionStr = expressionStr;
             _index = 0;
             _length = _expressionStr.Length;
         }
 
+        private char CurrentChar
+        {
+            get
+            {
+                return _expressionStr[_index];
+            }
+        }
+
         public Token GetToken()
         {
             var token = Token.Illegal;
-            //跳过空格
-            while (_index<_length && (_expressionStr[_index]==' ' || _expressionStr[_index]=='\t'))
+            //跳过非法字符：空格和Tab
+            while (_index<_length && (CurrentChar==' ' || CurrentChar == '\t'))
             {
                 _index++;
             }
@@ -33,10 +47,10 @@ namespace uInterpreter.Parser
                 return Token.Null;
             }
 
-            switch (_expressionStr[_index])
+            switch (CurrentChar)
             {
                 case '+':
-                    token = Token.Plus;
+                    token = Token.Add;
                     _index++;
                     break;
                 case '-':
@@ -135,7 +149,7 @@ namespace uInterpreter.Parser
             //是否当前字符串索引代表字符串的最后一个字符
             bool isEndOfString = false;
             //设置有穷自动机的初态
-            currentState = DFAState.q0;
+            currentState = DFAState.Init;
             //当前字符
             char currentChar;
             do
@@ -144,20 +158,20 @@ namespace uInterpreter.Parser
                 currentChar = _expressionStr[_index];
                 switch (currentState)
                 {
-                    case DFAState.q0:
+                    case DFAState.Init:
                         if (char.IsDigit(currentChar))
                         {
-                            currentState = DFAState.qI;
+                            currentState = DFAState.Integer;
                             if (!isEndOfString)
                             {
                                 _index++;
                             }
                         }
                         break;
-                    case DFAState.qI:
+                    case DFAState.Integer:
                         if (currentChar == '.')
                         {
-                            currentState = DFAState.qF;//输入小数点，状态转移到qF
+                            currentState = DFAState.Float;//输入小数点，状态转移到qF
                             if (!isEndOfString)
                             {
                                 _index++;
@@ -167,7 +181,7 @@ namespace uInterpreter.Parser
                         {
                             if (!char.IsDigit(currentChar))//既不是数字也不是小数
                             {
-                                currentState = DFAState.qQ;
+                                currentState = DFAState.Quit;
                             }
                             else
                             {
@@ -178,10 +192,10 @@ namespace uInterpreter.Parser
                             }
                         }
                         break;
-                    case DFAState.qF:
+                    case DFAState.Float:
                         if (!char.IsDigit(currentChar))//非数字，退出
                         {
-                            currentState = DFAState.qQ;
+                            currentState = DFAState.Quit;
                         }
                         else
                         {
@@ -191,11 +205,11 @@ namespace uInterpreter.Parser
                             }
                         }
                         break;
-                    case DFAState.qQ:
+                    case DFAState.Quit:
                         break;
 
                 }
-            } while (currentState != DFAState.qQ && !isEndOfString);
+            } while (currentState != DFAState.Quit && !isEndOfString);
 
             //取出数字
 

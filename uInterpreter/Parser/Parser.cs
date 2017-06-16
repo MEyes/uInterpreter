@@ -4,7 +4,7 @@ using uInterpreter.Enum;
 
 namespace uInterpreter.Parser
 {
-    public class Parser:Lexer
+    public class Parser:LexicalAnalyzer
     {
         private Token _currentToken;
 
@@ -24,13 +24,13 @@ namespace uInterpreter.Parser
             Token old;
             Expression expression = Term();
 
-            while (_currentToken==Token.Plus|| _currentToken==Token.Sub)
+            while (_currentToken==Token.Add|| _currentToken==Token.Sub)
             {
                 old = _currentToken;
                 _currentToken = GetToken();
                 Expression e1 = Expr();
 
-                expression=new BinaryExpression(expression,e1,old==Token.Plus?Operator.Plus:Operator.Minus);
+                expression=new BinaryExpression(expression,e1,old==Token.Add?Operator.Plus:Operator.Minus);
             }
             return expression;
         }
@@ -109,13 +109,13 @@ namespace uInterpreter.Parser
                 }
                 _currentToken = GetToken();
             }
-            else if(_currentToken==Token.Plus || _currentToken==Token.Sub)
+            else if(_currentToken==Token.Add || _currentToken==Token.Sub)
             {
                 var old = _currentToken;
                 _currentToken = GetToken();
                 expression = Factor();
 
-                expression=new UnaryExpression(expression,old==Token.Plus?Operator.Plus:Operator.Minus);
+                expression=new UnaryExpression(expression,old==Token.Add?Operator.Plus:Operator.Minus);
 
             }
             else
