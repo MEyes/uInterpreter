@@ -55,8 +55,10 @@
     <Compile Include="AST\Var.cs" />
     <Compile Include="Builder\AbstractBuilder.cs" />
     <Compile Include="Builder\ExpressionBuilder.cs" />
-    <Compile Include="Parser\DFAState.cs" />
+    <Compile Include="Parser\DigitsDFAState.cs" />
+    <Compile Include="Parser\DigitsDFA.cs" />
     <Compile Include="Parser\LexicalAnalyzer.cs" />
+    <Compile Include="Parser\MathExpression.cs" />
     <Compile Include="Parser\Parser.cs" />
     <Compile Include="Parser\Token.cs" />
     <Compile Include="Program.cs" />

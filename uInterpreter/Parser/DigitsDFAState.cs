@@ -11,7 +11,7 @@ namespace uInterpreter.Parser
     /// 有穷自动机是识别器，它们只能对每个可能的输入串简单地回答“是”或者“否"
     /// 有且只有一条离开状态，当为非数字时，即离开状态，
     /// </summary>
-    public enum DFAState
+    public enum DigitsDFAState
     {
         Init,
         Integer,
