@@ -43,6 +43,7 @@ namespace uInterpreter.Parser
                 {
                     throw new Exception("");
                 }
+                //TODO:这个入口不能封锁
                 if (value>=_expression.Length)
                 {
                     throw new Exception("");

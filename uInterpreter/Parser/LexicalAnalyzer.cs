@@ -12,13 +12,11 @@ namespace uInterpreter.Parser
     {
 
         private readonly MathExpression _mathExpression;
-
-        private readonly DigitsDFA _digitsDFA;
+        private DigitsDFA _digitsDFA;
         private double _digits;
         public LexicalAnalyzer(MathExpression mathExpression)
         {
             _mathExpression = mathExpression;
-            _digitsDFA=new DigitsDFA(mathExpression);
         }
 
         /// <summary>
@@ -79,7 +77,7 @@ namespace uInterpreter.Parser
                 default:
                     if (char.IsDigit(_mathExpression.CurrentChar))
                     {
-                        token = GrabDigitsFromString();
+                        token = GetDigitsFromString();
 
                     }else if (char.IsLetter(_mathExpression.CurrentChar))
                     {
@@ -122,8 +120,9 @@ namespace uInterpreter.Parser
 
         }
 
-        private Token GrabDigitsFromString()
+        private Token GetDigitsFromString()
         {
+            _digitsDFA = new DigitsDFA(_mathExpression);
             var str = _digitsDFA.Run();
             _digits = Convert.ToDouble(str);
             return Token.Double;

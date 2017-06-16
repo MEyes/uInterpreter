@@ -8,6 +8,7 @@ namespace uInterpreter.Parser
 {
     /// <summary>
     /// 有穷自动机从字符串中获取数字
+    /// DFA:当一个状态面对输入的时候，它所转换到是唯一确定的状态
     /// </summary>
     public class DigitsDFA
     {
