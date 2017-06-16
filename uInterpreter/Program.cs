@@ -11,7 +11,7 @@ namespace uInterpreter
     {
         static void Main(string[] args)
         {
-            var builder=new ExpressionBuilder("1+2*3-3");
+            var builder=new ExpressionBuilder("123.345+2*3-3");
             var expression=builder.GetExpression();
             Console.WriteLine(expression.Evaluate());
             Console.ReadKey();
