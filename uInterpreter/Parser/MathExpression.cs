@@ -17,7 +17,7 @@ namespace uInterpreter.Parser
             _index = 0;
         }
 
-        private string _expression;
+        private readonly string _expression;
         public string Expression
         {
             get

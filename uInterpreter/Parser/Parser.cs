@@ -8,11 +8,12 @@ namespace uInterpreter.Parser
     {
         private Token _currentToken;
 
-        private LexicalAnalyzer _lexicalAnalyzer;
+        private readonly LexicalAnalyzer _lexicalAnalyzer;
 
         public Parser(string expression)
         {
             _lexicalAnalyzer=new LexicalAnalyzer(new MathExpression(expression));
+
         }
 
         public Expression CallExpr()

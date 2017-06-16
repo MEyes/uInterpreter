@@ -11,8 +11,22 @@ namespace uInterpreter.Parser
     /// </summary>
     public class DigitsDFA
     {
-        private DigitsDFAState currentState;
-        private MathExpression _mathExpression;
+
+        /// <summary>
+        /// 有穷自动机,这些自动机本质上是与状态转换图类似
+        /// 有穷自动机是识别器，它们只能对每个可能的输入串简单地回答“是”或者“否"
+        /// 有且只有一条离开状态，当为非数字时，即离开状态，
+        /// </summary>
+        private enum State
+        {
+            Init,
+            Integer,
+            Float,
+            Quit
+        }
+
+        private State _currentState;
+        private readonly MathExpression _mathExpression;
 
         public DigitsDFA(MathExpression mathExpression)
         {
@@ -25,33 +39,38 @@ namespace uInterpreter.Parser
         {
             //保存原先字符索引
             var oldCharIndex = _mathExpression.CurrentIndex;
-            //是否当前字符串索引代表字符串的最后一个字符
-            bool isEndOfString = false;
-            //设置有穷自动机的初态
-            currentState = DigitsDFAState.Init;
             //当前字符
             char currentChar;
+            //是否是最后一个字符
+            bool isEndOfString;
+            //设置有穷自动机为初始状态
+            _currentState = State.Init;
             do
             {
                 isEndOfString = _mathExpression.IsEndOfString;
                 currentChar = _mathExpression.CurrentChar;
 
-                switch (currentState)
+                switch (_currentState)
                 {
-                    case DigitsDFAState.Init:
+                    case State.Init:
                         if (char.IsDigit(currentChar))
                         {
-                            currentState = DigitsDFAState.Integer;
+                            _currentState = State.Integer;
                             if (!isEndOfString)
                             {
                                 _mathExpression.CurrentIndex++;
                             }
                         }
+                        else
+                        {
+                           //Init状态非数字则退出
+                           _currentState= State.Quit;
+                        }
                         break;
-                    case DigitsDFAState.Integer:
+                    case State.Integer:
                         if (currentChar == '.')
                         {
-                            currentState = DigitsDFAState.Float;//输入小数点，状态转移到qF
+                            _currentState = State.Float;//输入小数点，状态转移到Float
                             if (!isEndOfString)
                             {
                                 _mathExpression.CurrentIndex++;
@@ -61,7 +80,7 @@ namespace uInterpreter.Parser
                         {
                             if (!char.IsDigit(currentChar))//既不是数字也不是小数
                             {
-                                currentState = DigitsDFAState.Quit;
+                                _currentState = State.Quit;
                             }
                             else
                             {
@@ -72,10 +91,10 @@ namespace uInterpreter.Parser
                             }
                         }
                         break;
-                    case DigitsDFAState.Float:
+                    case State.Float:
                         if (!char.IsDigit(currentChar))//非数字，退出
                         {
-                            currentState = DigitsDFAState.Quit;
+                            _currentState = State.Quit;
                         }
                         else
                         {
@@ -85,11 +104,11 @@ namespace uInterpreter.Parser
                             }
                         }
                         break;
-                    case DigitsDFAState.Quit:
+                    case State.Quit:
                         break;
 
                 }
-            } while (currentState != DigitsDFAState.Quit && !isEndOfString);
+            } while (_currentState != State.Quit && !isEndOfString);
 
             //取出数字
 
