@@ -10,22 +10,17 @@ namespace uInterpreter.Parser
     /// </summary>
     public class LexicalAnalyzer
     {
-        private readonly string _expressionStr;
-        private int _index;
-        private readonly int _length;
-        private double _number;
 
-        public LexicalAnalyzer(string expressionStr)
+        private readonly MathExpression _mathExpression;
+
+        private readonly DigitsDFA _digitsDFA;
+        private double _digits;
+        public LexicalAnalyzer(MathExpression mathExpression)
         {
-            _expressionStr = expressionStr;
-            _index = 0;
-            _length = _expressionStr.Length;
+            _mathExpression = mathExpression;
+            _digitsDFA=new DigitsDFA(mathExpression);
         }
 
-        private char CurrentChar
-        {
-            get { return _expressionStr[_index]; }
-        }
         /// <summary>
         /// 获取词法单元
         /// </summary>
@@ -34,59 +29,59 @@ namespace uInterpreter.Parser
         {
             var token = Token.Illegal;
             //跳过非法字符：空格和Tab
-            while (_index<_length && (CurrentChar==' ' || CurrentChar == '\t'))
+            while (!_mathExpression.IsIndexOutOfRange && (_mathExpression.CurrentChar==' ' || _mathExpression.CurrentChar == '\t'))
             {
-                _index++;
+                _mathExpression.CurrentIndex++;
             }
-            if (_index==_length)
+            if (_mathExpression.IsIndexOutOfRange)
             {
                 return Token.Null;
             }
 
-            switch (CurrentChar)
+            switch (_mathExpression.CurrentChar)
             {
                 case '+':
                     token = Token.Add;
-                    _index++;
+                    _mathExpression.CurrentIndex++;
                     break;
                 case '-':
                     token = Token.Sub;
-                    _index++;
+                    _mathExpression.CurrentIndex++;
                     break;
                 case '*':
                     token=Token.Mul;
-                    _index++;
+                    _mathExpression.CurrentIndex++;
                     break;
                 case '/':
                     token = Token.Div;
-                    _index++;
+                    _mathExpression.CurrentIndex++;
                     break;
                 case '(':
                     token = Token.OParen;
-                    _index++;
+                    _mathExpression.CurrentIndex++;
                     break;
                 case ')':
                     token = Token.CParen;
-                    _index++;
+                    _mathExpression.CurrentIndex++;
                     break;
                 case '$':
-                    if (_expressionStr[_index+1]=='t')
+                    if (_mathExpression.GetSpecificCharByIndex(_mathExpression.CurrentIndex + 1) =='t')
                     {
-                        _index += 2;
+                        _mathExpression.CurrentIndex += 2;
                         token = Token.Param;
                     }
                     else
                     {
-                        _index++;
+                        _mathExpression.CurrentIndex++;
                         token=Token.Illegal;
                     }
                     break;
                 default:
-                    if (char.IsDigit(CurrentChar))
+                    if (char.IsDigit(_mathExpression.CurrentChar))
                     {
-                        token = GrabDigitsFromStream();
+                        token = GrabDigitsFromString();
 
-                    }else if (char.IsLetter(CurrentChar))
+                    }else if (char.IsLetter(_mathExpression.CurrentChar))
                     {
                         token = GetSineCosineFromString();
                     }
@@ -99,41 +94,39 @@ namespace uInterpreter.Parser
             return token;
         }
 
-        public double GetNumber()
+        public double GetDigits()
         {
-            return _number;
+            return _digits;
         }
 
         private Token GetSineCosineFromString()
         {
-            var tem = Convert.ToString(_expressionStr[_index]);
-            _index++;
-            while (_index<_length && (char.IsLetter(_expressionStr[_index])))
-            {
-                tem += _expressionStr[_index];
-                _index++;
-            }
-            //表示怀疑
-            tem = tem.ToUpper();
-            if (tem=="SIN")
-            {
-                return Token.Sin;
-
-            }else if (tem=="COS")
-            {
-                return Token.Cos;
-            }
+//            var tem = Convert.ToString(_expressionStr[_index]);
+//            _index++;
+//            while (_index<_length && (char.IsLetter(_expressionStr[_index])))
+//            {
+//                tem += _expressionStr[_index];
+//                _index++;
+//            }
+//            //表示怀疑
+//            tem = tem.ToUpper();
+//            if (tem=="SIN")
+//            {
+//                return Token.Sin;
+//
+//            }else if (tem=="COS")
+//            {
+//                return Token.Cos;
+//            }
             return Token.Illegal;
+
         }
 
-        private Token GrabDigitsFromStream()
+        private Token GrabDigitsFromString()
         {
-            var str=Run();
-            _number = Convert.ToDouble(str);
+            var str = _digitsDFA.Run();
+            _digits = Convert.ToDouble(str);
             return Token.Double;
         }
-
-
-
     }
 }

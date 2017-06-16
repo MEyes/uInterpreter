@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using uInterpreter.AST;
+using Parser=uInterpreter.Parser.Parser;
 
 namespace uInterpreter.Builder
 {

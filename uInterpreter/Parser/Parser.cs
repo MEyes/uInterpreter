@@ -4,18 +4,20 @@ using uInterpreter.Enum;
 
 namespace uInterpreter.Parser
 {
-    public class Parser:LexicalAnalyzer
+    public class Parser
     {
         private Token _currentToken;
 
+        private LexicalAnalyzer _lexicalAnalyzer;
 
-        public Parser(string expressionStr) : base(expressionStr)
+        public Parser(string expression)
         {
+            _lexicalAnalyzer=new LexicalAnalyzer(new MathExpression(expression));
         }
 
         public Expression CallExpr()
         {
-            _currentToken = GetToken();
+            _currentToken = _lexicalAnalyzer.GetToken();
             return Expr();
         }
 
@@ -27,7 +29,7 @@ namespace uInterpreter.Parser
             while (_currentToken==Token.Add|| _currentToken==Token.Sub)
             {
                 old = _currentToken;
-                _currentToken = GetToken();
+                _currentToken = _lexicalAnalyzer.GetToken();
                 Expression e1 = Expr();
 
                 expression=new BinaryExpression(expression,e1,old==Token.Add?Operator.Plus:Operator.Minus);
@@ -43,7 +45,7 @@ namespace uInterpreter.Parser
             while (_currentToken==Token.Mul || _currentToken==Token.Div)
             {
                 old = _currentToken;
-                _currentToken = GetToken();
+                _currentToken = _lexicalAnalyzer.GetToken();
 
 
                 Expression e1 = Term();
@@ -65,24 +67,24 @@ namespace uInterpreter.Parser
             Expression expression;
             if (_currentToken==Token.Double)
             {
-                expression=new NumericConstant(GetNumber());
-                _currentToken = GetToken();
+                expression=new NumericConstant(_lexicalAnalyzer.GetDigits());
+                _currentToken = _lexicalAnalyzer.GetToken();
             }
             else if (_currentToken == Token.Param)
             {
                 expression=new Var(null);
-                _currentToken = GetToken();
+                _currentToken = _lexicalAnalyzer.GetToken();
             }
             else if(_currentToken==Token.Sin || _currentToken==Token.Cos)
             {
                 Token old = _currentToken;
-                _currentToken = GetToken();
+                _currentToken = _lexicalAnalyzer.GetToken();
                 if (_currentToken!=Token.OParen)
                 {
                     throw new Exception("Illegal Token");
                 }
 
-                _currentToken = GetToken();
+                _currentToken = _lexicalAnalyzer.GetToken();
                 expression = Expr();
                 if (_currentToken!=Token.CParen)
                 {
@@ -97,22 +99,22 @@ namespace uInterpreter.Parser
                 {
                     expression=new SinExpression(expression);
                 }
-                _currentToken = GetToken();
+                _currentToken = _lexicalAnalyzer.GetToken();
             }
             else if (_currentToken==Token.OParen)
             {
-                _currentToken = GetToken();
+                _currentToken = _lexicalAnalyzer.GetToken();
                 expression = Expr();
                 if (_currentToken!=Token.CParen)
                 {
                     throw new Exception("Missing Closing Parenthesis\n");
                 }
-                _currentToken = GetToken();
+                _currentToken = _lexicalAnalyzer.GetToken();
             }
             else if(_currentToken==Token.Add || _currentToken==Token.Sub)
             {
                 var old = _currentToken;
-                _currentToken = GetToken();
+                _currentToken = _lexicalAnalyzer.GetToken();
                 expression = Factor();
 
                 expression=new UnaryExpression(expression,old==Token.Add?Operator.Plus:Operator.Minus);

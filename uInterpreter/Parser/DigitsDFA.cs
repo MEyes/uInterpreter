@@ -6,17 +6,25 @@ using System.Threading.Tasks;
 
 namespace uInterpreter.Parser
 {
+    /// <summary>
+    /// 有穷自动机从字符串中获取数字
+    /// </summary>
     public class DigitsDFA
     {
         private DigitsDFAState currentState;
+        private MathExpression _mathExpression;
 
+        public DigitsDFA(MathExpression mathExpression)
+        {
+            _mathExpression = mathExpression;
+        }
         /// <summary>
         /// 通过有穷自动机的状态转换取数字
         /// </summary>
         public string Run()
         {
             //保存原先字符索引
-            var oldCharIndex = _index;
+            var oldCharIndex = _mathExpression.CurrentIndex;
             //是否当前字符串索引代表字符串的最后一个字符
             bool isEndOfString = false;
             //设置有穷自动机的初态
@@ -25,8 +33,9 @@ namespace uInterpreter.Parser
             char currentChar;
             do
             {
-                isEndOfString = _index == _length - 1;
-                currentChar = _expressionStr[_index];
+                isEndOfString = _mathExpression.IsEndOfString;
+                currentChar = _mathExpression.CurrentChar;
+
                 switch (currentState)
                 {
                     case DigitsDFAState.Init:
@@ -35,7 +44,7 @@ namespace uInterpreter.Parser
                             currentState = DigitsDFAState.Integer;
                             if (!isEndOfString)
                             {
-                                _index++;
+                                _mathExpression.CurrentIndex++;
                             }
                         }
                         break;
@@ -45,7 +54,7 @@ namespace uInterpreter.Parser
                             currentState = DigitsDFAState.Float;//输入小数点，状态转移到qF
                             if (!isEndOfString)
                             {
-                                _index++;
+                                _mathExpression.CurrentIndex++;
                             }
                         }
                         else
@@ -58,7 +67,7 @@ namespace uInterpreter.Parser
                             {
                                 if (!isEndOfString)
                                 {
-                                    _index++;//读取下一个字符
+                                    _mathExpression.CurrentIndex++;//读取下一个字符
                                 }
                             }
                         }
@@ -72,7 +81,7 @@ namespace uInterpreter.Parser
                         {
                             if (!isEndOfString)
                             {
-                                _index++;
+                                _mathExpression.CurrentIndex++;
                             }
                         }
                         break;
@@ -84,13 +93,13 @@ namespace uInterpreter.Parser
 
             //取出数字
 
-            if (_index == _length - 1 && char.IsDigit(currentChar))
+            if (isEndOfString && char.IsDigit(currentChar))
             {
-                return _expressionStr.Substring(oldCharIndex, _index - oldCharIndex + 1);
+                return _mathExpression.Expression.Substring(oldCharIndex, _mathExpression.CurrentIndex - oldCharIndex + 1);
             }
             else
             {
-                return _expressionStr.Substring(oldCharIndex, _index - oldCharIndex);
+                return _mathExpression.Expression.Substring(oldCharIndex, _mathExpression.CurrentIndex - oldCharIndex);
             }
 
 
