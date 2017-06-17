@@ -99,23 +99,23 @@ namespace uInterpreter.Parser
 
         private Token GetSineCosineFromString()
         {
-//            var tem = Convert.ToString(_expressionStr[_index]);
-//            _index++;
-//            while (_index<_length && (char.IsLetter(_expressionStr[_index])))
-//            {
-//                tem += _expressionStr[_index];
-//                _index++;
-//            }
-//            //表示怀疑
-//            tem = tem.ToUpper();
-//            if (tem=="SIN")
-//            {
-//                return Token.Sin;
-//
-//            }else if (tem=="COS")
-//            {
-//                return Token.Cos;
-//            }
+            var tem = Convert.ToString(_mathExpression.CurrentChar);
+            _mathExpression.CurrentIndex++;
+            while (!_mathExpression.IsIndexOutOfRange && (char.IsLetter(_mathExpression.CurrentChar)))
+            {
+                tem += _mathExpression.CurrentChar;
+                _mathExpression.CurrentIndex++;
+            }
+            //TODO:
+            tem = tem.ToUpper();
+            if (tem=="SIN")
+            {
+                return Token.Sin;
+
+            }else if (tem=="COS")
+            {
+                return Token.Cos;
+            }
             return Token.Illegal;
 
         }
