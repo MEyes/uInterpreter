@@ -8,14 +8,9 @@ namespace uInterpreter.AST
 {
     public class Var:Expression
     {
-        private Context _context;
-        public Var(Context context)
+        public override double Evaluate(Context context)
         {
-            _context = context;
-        }
-        public override double Evaluate()
-        {
-            return _context.T;
+            return context.CritRate;
         }
     }
 }

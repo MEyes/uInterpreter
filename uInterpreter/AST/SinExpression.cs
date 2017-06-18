@@ -14,9 +14,9 @@ namespace uInterpreter.AST
         {
             _expression = expression;
         }
-        public override double Evaluate()
+        public override double Evaluate(Context context)
         {
-            var value = _expression.Evaluate();
+            var value = _expression.Evaluate(context);
             return Math.Sin(value);
         }
     }

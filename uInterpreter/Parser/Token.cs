@@ -19,6 +19,7 @@ namespace uInterpreter.Parser
         Param,        //参数
         Sin,          //Sine
         Cos,          //Cos
+        Random,       //Random
         Null          //结束
     }
 }

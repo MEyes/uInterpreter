@@ -15,7 +15,7 @@ namespace uInterpreter.AST
             this._minValue = minValue;
             _maxValue = maxValue;
         }
-        public override double Evaluate()
+        public override double Evaluate(Context context)
         {
             Random random=new Random();
             return Convert.ToDouble(random.Next(_minValue, _maxValue));

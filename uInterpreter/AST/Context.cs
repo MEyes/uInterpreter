@@ -9,17 +9,20 @@ namespace uInterpreter.AST
 {
     public class Context
     {
-        private double _t;
+        /// <summary>
+        /// 暴击率的缩写CritRate
+        /// </summary>
+        private double _c;
 
         public Context()
         {
-            _t = 0;
+            _c = 0;
         }
 
-        public double T
+        public double CritRate
         {
-            get { return _t; }
-            set { _t = value; }
+            get { return _c; }
+            set { _c = value; }
         }
     }
 }

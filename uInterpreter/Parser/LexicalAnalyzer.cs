@@ -63,7 +63,7 @@ namespace uInterpreter.Parser
                     _mathExpression.CurrentIndex++;
                     break;
                 case '$':
-                    if (_mathExpression.GetSpecificCharByIndex(_mathExpression.CurrentIndex + 1) =='t')
+                    if (_mathExpression.GetSpecificCharByIndex(_mathExpression.CurrentIndex + 1) =='c')
                     {
                         _mathExpression.CurrentIndex += 2;
                         token = Token.Param;
@@ -115,6 +115,10 @@ namespace uInterpreter.Parser
             }else if (tem=="COS")
             {
                 return Token.Cos;
+            }else if (tem=="RANDOM")
+            {
+                //TODO:parser相应做出调整
+                return Token.Random;
             }
             return Token.Illegal;
 

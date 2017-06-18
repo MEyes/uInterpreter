@@ -17,14 +17,14 @@ namespace uInterpreter.AST
             _expression = expression;
             _operator = op;
         }
-        public override double Evaluate()
+        public override double Evaluate(Context context)
         {
             switch (_operator)
             {
                 case Operator.Plus:
-                    return _expression.Evaluate();
+                    return _expression.Evaluate(context);
                 case Operator.Minus:
-                    return -_expression.Evaluate();
+                    return -_expression.Evaluate(context);
             }
             return Double.NaN;
         }

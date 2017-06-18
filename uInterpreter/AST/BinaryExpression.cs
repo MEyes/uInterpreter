@@ -19,18 +19,18 @@ namespace uInterpreter.AST
             _rightExpression = righExpression;
             _operator = op;
         }
-        public override double Evaluate()
+        public override double Evaluate(Context context)
         {
             switch (_operator)
             {
                 case Operator.Plus:
-                    return _leftExpression.Evaluate() + _rightExpression.Evaluate();
+                    return _leftExpression.Evaluate(context) + _rightExpression.Evaluate(context);
                 case Operator.Minus:
-                    return _leftExpression.Evaluate() - _rightExpression.Evaluate();
+                    return _leftExpression.Evaluate(context) - _rightExpression.Evaluate(context);
                 case Operator.Mul:
-                    return _leftExpression.Evaluate() * _rightExpression.Evaluate();
+                    return _leftExpression.Evaluate(context) * _rightExpression.Evaluate(context);
                 case Operator.Div:
-                    return _leftExpression.Evaluate() / _rightExpression.Evaluate();
+                    return _leftExpression.Evaluate(context) / _rightExpression.Evaluate(context);
             }
             return Double.NaN;
         }

@@ -8,6 +8,6 @@ namespace uInterpreter.AST
 {
     public abstract class Expression
     {
-        public abstract double Evaluate();
+        public abstract double Evaluate(Context context);
     }
 }

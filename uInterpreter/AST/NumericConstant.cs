@@ -14,7 +14,7 @@ namespace uInterpreter.AST
         {
             _value = value;
         }
-        public override double Evaluate()
+        public override double Evaluate(Context context)
         {
             return _value;
         }
