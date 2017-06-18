@@ -9,7 +9,7 @@ namespace uInterpreter.Parser
     public enum Token
     {
         Illegal=-1,   //非法
-        Add,          //加
+        Plus,          //加
         Sub,          //减  
         Mul,          //乘
         Div,          //除

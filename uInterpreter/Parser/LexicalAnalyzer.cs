@@ -39,7 +39,7 @@ namespace uInterpreter.Parser
             switch (_mathExpression.CurrentChar)
             {
                 case '+':
-                    token = Token.Add;
+                    token = Token.Plus;
                     _mathExpression.CurrentIndex++;
                     break;
                 case '-':
