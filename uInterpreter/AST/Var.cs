@@ -10,6 +10,8 @@ namespace uInterpreter.AST
     {
         public override double Evaluate(Context context)
         {
+            //TODO:扩展其他的变量
+            //比如ATK,DEF...
             return context.CritRate;
         }
     }
