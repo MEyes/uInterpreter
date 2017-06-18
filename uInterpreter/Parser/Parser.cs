@@ -86,7 +86,7 @@ namespace uInterpreter.Parser
             }
             else if (_currentToken == Token.Param)
             {
-                expression=new Var(null);
+                expression=new Var();
                 _currentToken = _lexicalAnalyzer.GetToken();
             }
             else if(_currentToken==Token.Sin || _currentToken==Token.Cos)
